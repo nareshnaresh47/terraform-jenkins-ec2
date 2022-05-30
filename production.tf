@@ -1,5 +1,14 @@
-module "ec2" {
-  source = "./modules/ec2"
+provider "aws" {
+    region     = "ap-south-1"
+ }
 
-  region = "${var.region}"
-}
+ resource "aws_instance" "example" {
+   ami           = "ami-04893cdb768d0f9ee"
+   instance_type = "t2.micro"
+   key_name = "terraformec2"
+
+   provisioner "local-exec" {
+     command = "echo ${aws_instance.example.public_ip} > ip_address.txt"
+   }
+
+ }
